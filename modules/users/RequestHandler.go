@@ -1,7 +1,7 @@
 package users
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -33,6 +33,9 @@ type CreateRequest struct {
 	Email     string `json:"email"  binding:"required"`
 	Avatar    string `json:"avatar"  binding:"required"`
 }
+type APIRequest struct {
+	Data []CreateRequest `json:"data"`
+}
 
 type ErrorResponse struct {
 	Error string `json:"error"`
@@ -57,9 +60,37 @@ func (h RequestHandler) Create(c *gin.Context) {
 
 func (h RequestHandler) Read(c *gin.Context) {
 	res, err := h.ctrl.Read()
+
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
 		return
+	}
+
+	if res.Data == nil {
+		url := "https://reqres.in/api/users?page=2"
+
+		// GET request ke API
+		res1, err1 := http.Get(url)
+		if err1 != nil {
+			c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err1.Error()})
+			return
+		}
+		defer res1.Body.Close()
+
+		var apiRequest APIRequest
+		if err := json.NewDecoder(res1.Body).Decode(&apiRequest); err != nil {
+			c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
+			return
+		}
+		for _, data := range apiRequest.Data {
+			cust := CreateRequest{
+				FirstName: data.FirstName,
+				LastName:  data.LastName,
+				Email:     data.Email,
+				Avatar:    data.Avatar,
+			}
+			h.ctrl.Create(&cust)
+		}
 	}
 
 	c.JSON(http.StatusOK, res)
@@ -67,8 +98,6 @@ func (h RequestHandler) Read(c *gin.Context) {
 func (h RequestHandler) ReadBy(c *gin.Context) {
 	column := c.Param("column")
 	value := c.Query("value")
-	fmt.Println(column)
-	fmt.Println(value)
 
 	var customer *UserItemResponse
 	var err error
