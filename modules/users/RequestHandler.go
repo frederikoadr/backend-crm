@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -62,6 +63,39 @@ func (h RequestHandler) Read(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, res)
+}
+func (h RequestHandler) ReadBy(c *gin.Context) {
+	column := c.Param("column")
+	value := c.Query("value")
+	fmt.Println(column)
+	fmt.Println(value)
+
+	var customer *UserItemResponse
+	var err error
+
+	switch column {
+	case "firstname":
+		customer, err = h.ctrl.ReadBy("first_name", value)
+	case "lastname":
+		customer, err = h.ctrl.ReadBy("last_name", value)
+	case "email":
+		customer, err = h.ctrl.ReadBy("email", value)
+	default:
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid column"})
+		return
+	}
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if customer == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Customer not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, customer)
 }
 
 func (h RequestHandler) Delete(c *gin.Context) {

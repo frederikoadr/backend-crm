@@ -2,6 +2,7 @@ package users
 
 import (
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -18,6 +19,16 @@ func (r Repository) FindAll() ([]Customers, error) {
 	//err := r.db.Preload("Collections").Order("id").Find(&customers).Error
 	err := r.db.Find(&customers).Error
 	return customers, err
+}
+
+func (r Repository) FindBy(column, value string) (*Customers, error) {
+	var customers Customers
+	condition := fmt.Sprintf("%s = ?", column)
+	// Dapatkan data user dari database berdasarkan ID
+	if err := r.db.First(&customers, condition, value).Error; err != nil {
+		return nil, err
+	}
+	return &customers, nil
 }
 
 func (r Repository) SoftDel(id string) (*Customers, error) {

@@ -14,7 +14,10 @@ type CreateResponse struct {
 	Message string           `json:"message"`
 	Data    UserItemResponse `json:"data"`
 }
-
+type ReadByResponse struct {
+	Message string           `json:"message"`
+	Data    UserItemResponse `json:"data"`
+}
 type DeleteResponse struct {
 	Message string           `json:"message"`
 	Data    UserItemResponse `json:"data"`
@@ -85,6 +88,23 @@ func (c Controller) Read() (*ReadResponse, error) {
 		//	})
 		//}
 		res.Data = append(res.Data, item)
+	}
+
+	return res, nil
+}
+
+func (c Controller) ReadBy(col, val string) (*UserItemResponse, error) {
+	user, err := c.useCase.ReadBy(col, val)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &UserItemResponse{
+		ID:        user.ID,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Email:     user.Email,
+		Avatar:    user.Avatar,
 	}
 
 	return res, nil

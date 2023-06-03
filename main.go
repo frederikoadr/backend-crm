@@ -2,10 +2,8 @@ package main
 
 import (
 	"BackendCRM/modules/users"
-	"errors"
 	"github.com/gin-gonic/gin"
 	"log"
-	"net/http"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -30,24 +28,6 @@ func initDB() (*gorm.DB, error) {
 	return gorm.Open(mysql.Open(dsn), &gorm.Config{})
 }
 
-func getUserById(c *gin.Context) {
-	var user Customers
-	userID := c.Param("id")
-
-	// Dapatkan data user dari database berdasarkan ID
-	if err := db.First(&user, userID).Error; err != nil {
-		if errors.Is(gorm.ErrRecordNotFound, err) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Customers not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	// Tampilkan data user
-	c.JSON(http.StatusOK, gin.H{"user": user})
-}
-
 func main() {
 	db, err := initDB()
 	if err != nil {
@@ -59,7 +39,7 @@ func main() {
 
 	r.POST("/customers", usersHandler.Create)
 	r.GET("/customers", usersHandler.Read)
-	r.GET("/customers/:id", usersHandler.Read)
+	r.GET("/customers/:column", usersHandler.ReadBy)
 	r.DELETE("/customers/:id", usersHandler.Delete)
 	r.PUT("customers/:id", usersHandler.Update)
 
