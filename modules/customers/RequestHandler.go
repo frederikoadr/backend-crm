@@ -1,6 +1,7 @@
-package users
+package customers
 
 import (
+	"BackendCRM/dto"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -27,31 +28,17 @@ func DefaultRequestHandler(db *gorm.DB) *RequestHandler {
 	)
 }
 
-type CreateRequest struct {
-	FirstName string `json:"first_name" binding:"required"`
-	LastName  string `json:"last_name"  binding:"required"`
-	Email     string `json:"email"  binding:"required"`
-	Avatar    string `json:"avatar"  binding:"required"`
-}
-type APIRequest struct {
-	Data []CreateRequest `json:"data"`
-}
-
-type ErrorResponse struct {
-	Error string `json:"error"`
-}
-
 func (h RequestHandler) Create(c *gin.Context) {
-	var req CreateRequest
+	var req dto.CreateRequest
 
 	if err := c.BindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, dto.ErrorResponse{Error: err.Error()})
 		return
 	}
 
 	res, err := h.ctrl.Create(&req)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
+		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Error: err.Error()})
 		return
 	}
 
@@ -62,7 +49,7 @@ func (h RequestHandler) Read(c *gin.Context) {
 	res, err := h.ctrl.Read()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
+		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Error: err.Error()})
 		return
 	}
 
@@ -72,18 +59,18 @@ func (h RequestHandler) Read(c *gin.Context) {
 		// GET request ke API
 		res1, err1 := http.Get(url)
 		if err1 != nil {
-			c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err1.Error()})
+			c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Error: err1.Error()})
 			return
 		}
 		defer res1.Body.Close()
 
-		var apiRequest APIRequest
+		var apiRequest dto.APIRequest
 		if err := json.NewDecoder(res1.Body).Decode(&apiRequest); err != nil {
-			c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
+			c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Error: err.Error()})
 			return
 		}
 		for _, data := range apiRequest.Data {
-			cust := CreateRequest{
+			cust := dto.CreateRequest{
 				FirstName: data.FirstName,
 				LastName:  data.LastName,
 				Email:     data.Email,
@@ -92,14 +79,13 @@ func (h RequestHandler) Read(c *gin.Context) {
 			h.ctrl.Create(&cust)
 		}
 	}
-
 	c.JSON(http.StatusOK, res)
 }
 func (h RequestHandler) ReadBy(c *gin.Context) {
 	column := c.Param("column")
 	value := c.Query("value")
 
-	var customer *UserItemResponse
+	var customer *dto.UserItemResponse
 	var err error
 
 	switch column {

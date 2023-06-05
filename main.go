@@ -1,24 +1,12 @@
 package main
 
 import (
-	"BackendCRM/modules/users"
+	"BackendCRM/modules/customers"
 	"github.com/gin-gonic/gin"
-	"log"
-	"time"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
 )
-
-type Customers struct {
-	ID        uint `gorm:"primarykey"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
-	Avatar    string `json:"avatar"`
-}
 
 var db *gorm.DB
 var err error
@@ -35,7 +23,7 @@ func main() {
 	}
 
 	r := gin.Default()
-	usersHandler := users.DefaultRequestHandler(db)
+	usersHandler := customers.DefaultRequestHandler(db)
 
 	r.POST("/customers", usersHandler.Create)
 	r.GET("/customers", usersHandler.Read)

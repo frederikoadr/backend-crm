@@ -1,4 +1,4 @@
-package users
+package customers
 
 type UseCase struct {
 	repo *Repository
