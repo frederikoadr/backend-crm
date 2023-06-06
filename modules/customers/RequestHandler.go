@@ -2,10 +2,13 @@ package customers
 
 import (
 	"BackendCRM/dto"
+	"BackendCRM/utility"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type RequestHandler struct {
@@ -29,6 +32,23 @@ func DefaultRequestHandler(db *gorm.DB) *RequestHandler {
 }
 
 func (h RequestHandler) Create(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId > 2 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
 	var req dto.RequestCustomer
 
 	if err := c.BindJSON(&req); err != nil {
@@ -82,11 +102,27 @@ func (h RequestHandler) Read(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 func (h RequestHandler) ReadBy(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId > 2 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
 	column := c.Param("column")
 	value := c.Query("value")
 
 	var customer *dto.CustomerItemResponse
-	var err error
 
 	switch column {
 	case "firstname":
@@ -114,6 +150,22 @@ func (h RequestHandler) ReadBy(c *gin.Context) {
 }
 
 func (h RequestHandler) Delete(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId > 2 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
 	userID := c.Param("id")
 	res, err := h.ctrl.Delete(userID)
 	if err != nil {

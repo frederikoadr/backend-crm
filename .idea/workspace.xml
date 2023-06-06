@@ -5,25 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56e7edbe-502b-43df-9203-72ff6c027de8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/entities/actors.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entities/register.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/account/RequestHandler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/account/controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/account/repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/account/useCase.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utility/token.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/request.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dto/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entities/customers.go" beforeDir="false" afterPath="$PROJECT_DIR$/entities/customers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/RequestHandler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/useCase.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/useCase.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/customers/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/RequestHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/entity.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/useCase.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/useCase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utility/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/utility/token.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

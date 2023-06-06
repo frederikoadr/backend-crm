@@ -30,6 +30,12 @@ func (r Repository) FindAll() ([]entities.Actors, error) {
 	err := r.db.Find(&actors).Error
 	return actors, err
 }
+func (r Repository) FindAllRegis() ([]entities.Register, error) {
+	var registers []entities.Register
+	//err := r.db.Preload("Collections").Order("id").Find(&registers).Error
+	err := r.db.Find(&registers).Error
+	return registers, err
+}
 
 func (r Repository) FindBy(column, value string) (*entities.Actors, error) {
 	var actors entities.Actors

@@ -31,3 +31,9 @@ type ActorItemResponse struct {
 	Verified string `json:"verified"`
 	Active   string `json:"active"`
 }
+type RegisItemResponse struct {
+	ID           uint   `json:"id"`
+	AdminId      uint   `json:"admin_id"`
+	SuperAdminId uint   `json:"super_admin_id"`
+	Status       string `json:"status"`
+}

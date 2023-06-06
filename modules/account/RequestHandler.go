@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type RequestHandler struct {
@@ -29,6 +31,23 @@ func DefaultRequestHandler(db *gorm.DB) *RequestHandler {
 }
 
 func (h RequestHandler) Create(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId != 2 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
 	var reqActor dto.RequestActor
 
 	if err := c.BindJSON(&reqActor); err != nil {
@@ -55,7 +74,66 @@ func (h RequestHandler) Read(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h RequestHandler) ReadBy(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId > 2 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
+	column := c.Param("column")
+	value := c.Query("value")
+
+	var customer *dto.ActorItemResponse
+
+	if column != "username" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid column"})
+		return
+	}
+	customer, err = h.ctrl.ReadBy("username", value)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if customer == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Customer not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, customer)
+}
+
 func (h RequestHandler) Delete(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId > 1 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
 	userID := c.Param("id")
 	res, err := h.ctrl.Delete(userID)
 	if err != nil {
@@ -66,6 +144,23 @@ func (h RequestHandler) Delete(c *gin.Context) {
 }
 
 func (h RequestHandler) Update(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId > 1 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
 	var user dto.RequestActor
 	userID := c.Param("id")
 
@@ -105,4 +200,31 @@ func (h RequestHandler) Login(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, jwt)
+}
+
+func (h RequestHandler) ReadRegis(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId != 1 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
+	res, err := h.ctrl.ReadRegis()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Error: err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, res)
 }

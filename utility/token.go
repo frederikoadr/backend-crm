@@ -10,10 +10,9 @@ import (
 func GenerateJWT(id, secretKey string) (string, error) {
 	// Inisialisasi klaim-klaim yang ingin Anda sertakan dalam token
 	claims := jwt.MapClaims{
-		"sub":  id,
-		"name": "John Doe",
-		"iat":  time.Now().Unix(),
-		"exp":  time.Now().Add(time.Hour * 1).Unix(),
+		"sub": id,
+		"iat": time.Now().Unix(),
+		"exp": time.Now().Add(time.Hour * 1).Unix(),
 	}
 
 	// Tandatangani token dengan kunci rahasia

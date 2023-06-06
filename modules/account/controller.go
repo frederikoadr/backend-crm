@@ -40,6 +40,9 @@ func (c Controller) Create(req *dto.RequestActor) (*dto.ActorDataResponse, error
 type ReadResponse struct {
 	Data []dto.ActorItemResponse `json:"data"`
 }
+type ReadRegisResponse struct {
+	Data []dto.RegisItemResponse `json:"data"`
+}
 
 func (c Controller) Read() (*ReadResponse, error) {
 	users, err := c.useCase.Read()
@@ -118,4 +121,22 @@ func (c Controller) Update(req *dto.RequestActor, id string) (*dto.ActorDataResp
 		},
 	}
 	return res, err
+}
+
+func (c Controller) ReadRegis() (*ReadRegisResponse, error) {
+	users, err := c.useCase.ReadRegis()
+	if err != nil {
+		return nil, err
+	}
+
+	res := &ReadRegisResponse{}
+	for _, user := range users {
+		item := dto.RegisItemResponse{
+			AdminId:      user.AdminId,
+			SuperAdminId: user.SuperAdminId,
+			Status:       user.Status,
+		}
+		res.Data = append(res.Data, item)
+	}
+	return res, nil
 }

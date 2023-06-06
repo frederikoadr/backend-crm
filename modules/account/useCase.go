@@ -24,6 +24,9 @@ func (u UseCase) Create(user *entities.Actors) error {
 func (u UseCase) Read() ([]entities.Actors, error) {
 	return u.repo.FindAll()
 }
+func (u UseCase) ReadRegis() ([]entities.Register, error) {
+	return u.repo.FindAllRegis()
+}
 
 func (u UseCase) ReadBy(col, val string) (*entities.Actors, error) {
 	return u.repo.FindBy(col, val)

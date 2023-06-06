@@ -35,6 +35,7 @@ func main() {
 	r.GET("/login", accountHandler.Login)
 	r.POST("/actors", accountHandler.Create)
 	r.GET("/actors", accountHandler.Read)
+	r.GET("/registers", accountHandler.ReadRegis)
 	r.DELETE("/actors/:id", accountHandler.Delete)
 	r.PUT("/actors/:id", accountHandler.Update)
 
