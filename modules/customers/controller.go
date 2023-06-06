@@ -1,6 +1,9 @@
 package customers
 
-import "BackendCRM/dto"
+import (
+	"BackendCRM/dto"
+	"BackendCRM/entities"
+)
 
 type Controller struct {
 	useCase *UseCase
@@ -12,16 +15,16 @@ func NewController(useCase *UseCase) *Controller {
 	}
 }
 
-func (c Controller) Create(req *dto.CreateRequest) (*dto.CreateResponse, error) {
-	user := Customers{FirstName: req.FirstName, LastName: req.LastName, Email: req.Email, Avatar: req.Avatar}
+func (c Controller) Create(req *dto.RequestCustomer) (*dto.CustomerDataResponse, error) {
+	user := entities.Customers{FirstName: req.FirstName, LastName: req.LastName, Email: req.Email, Avatar: req.Avatar}
 	err := c.useCase.Create(&user)
 	if err != nil {
 		return nil, err
 	}
 
-	res := &dto.CreateResponse{
+	res := &dto.CustomerDataResponse{
 		Message: "Success",
-		Data: dto.UserItemResponse{
+		Data: dto.CustomerItemResponse{
 			ID:        user.ID,
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
@@ -34,7 +37,7 @@ func (c Controller) Create(req *dto.CreateRequest) (*dto.CreateResponse, error) 
 }
 
 type ReadResponse struct {
-	Data []dto.UserItemResponse `json:"data"`
+	Data []dto.CustomerItemResponse `json:"data"`
 }
 
 func (c Controller) Read() (*ReadResponse, error) {
@@ -45,7 +48,7 @@ func (c Controller) Read() (*ReadResponse, error) {
 
 	res := &ReadResponse{}
 	for _, user := range users {
-		item := dto.UserItemResponse{
+		item := dto.CustomerItemResponse{
 			ID:        user.ID,
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
@@ -64,13 +67,13 @@ func (c Controller) Read() (*ReadResponse, error) {
 	return res, nil
 }
 
-func (c Controller) ReadBy(col, val string) (*dto.UserItemResponse, error) {
+func (c Controller) ReadBy(col, val string) (*dto.CustomerItemResponse, error) {
 	user, err := c.useCase.ReadBy(col, val)
 	if err != nil {
 		return nil, err
 	}
 
-	res := &dto.UserItemResponse{
+	res := &dto.CustomerItemResponse{
 		ID:        user.ID,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
@@ -81,11 +84,11 @@ func (c Controller) ReadBy(col, val string) (*dto.UserItemResponse, error) {
 	return res, nil
 }
 
-func (c Controller) Delete(id string) (*dto.DeleteResponse, error) {
+func (c Controller) Delete(id string) (*dto.CustomerDataResponse, error) {
 	user, err := c.useCase.Delete(id)
-	res := &dto.DeleteResponse{
+	res := &dto.CustomerDataResponse{
 		Message: "Data berikut berhasil dihapus:",
-		Data: dto.UserItemResponse{
+		Data: dto.CustomerItemResponse{
 			ID:        user.ID,
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
@@ -96,11 +99,12 @@ func (c Controller) Delete(id string) (*dto.DeleteResponse, error) {
 	return res, err
 }
 
-func (c Controller) Update(cst *Customers, id string) (*dto.UpdateResponse, error) {
-	user, err := c.useCase.Update(cst, id)
-	res := &dto.UpdateResponse{
+func (c Controller) Update(req *dto.RequestCustomer, id string) (*dto.CustomerDataResponse, error) {
+	cstr := entities.Customers{FirstName: req.FirstName, LastName: req.LastName, Email: req.Email, Avatar: req.Avatar}
+	user, err := c.useCase.Update(&cstr, id)
+	res := &dto.CustomerDataResponse{
 		Message: "Data berhasil diupdate:",
-		Data: dto.UserItemResponse{
+		Data: dto.CustomerItemResponse{
 			ID:        user.ID,
 			FirstName: user.FirstName,
 			LastName:  user.LastName,

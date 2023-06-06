@@ -29,7 +29,7 @@ func DefaultRequestHandler(db *gorm.DB) *RequestHandler {
 }
 
 func (h RequestHandler) Create(c *gin.Context) {
-	var req dto.CreateRequest
+	var req dto.RequestCustomer
 
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, dto.ErrorResponse{Error: err.Error()})
@@ -70,7 +70,7 @@ func (h RequestHandler) Read(c *gin.Context) {
 			return
 		}
 		for _, data := range apiRequest.Data {
-			cust := dto.CreateRequest{
+			cust := dto.RequestCustomer{
 				FirstName: data.FirstName,
 				LastName:  data.LastName,
 				Email:     data.Email,
@@ -85,7 +85,7 @@ func (h RequestHandler) ReadBy(c *gin.Context) {
 	column := c.Param("column")
 	value := c.Query("value")
 
-	var customer *dto.UserItemResponse
+	var customer *dto.CustomerItemResponse
 	var err error
 
 	switch column {
@@ -124,7 +124,7 @@ func (h RequestHandler) Delete(c *gin.Context) {
 }
 
 func (h RequestHandler) Update(c *gin.Context) {
-	var user Customers
+	var user dto.RequestCustomer
 	userID := c.Param("id")
 
 	// Baca data JSON dari body permintaan
