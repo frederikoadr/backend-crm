@@ -2,12 +2,11 @@ package account
 
 import (
 	"BackendCRM/dto"
-	"BackendCRM/utility"
+	"BackendCRM/function/auth"
+	"BackendCRM/utility/token"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
-	"strconv"
-	"strings"
 )
 
 type RequestHandler struct {
@@ -46,22 +45,8 @@ func (h RequestHandler) Create(c *gin.Context) {
 }
 func (h RequestHandler) CreateReg(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	token = strings.TrimPrefix(token, "Bearer ")
-	resJWT, err := utility.VerfiyJWT(token, "koentji")
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	roleId, err := strconv.Atoi(resJWT)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	if roleId != 2 {
+	isAdmin := auth.CheckAdmin(auth.TokenParam{Data: token})
+	if !isAdmin {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
 		return
 	}
@@ -88,23 +73,11 @@ func (h RequestHandler) Read(c *gin.Context) {
 }
 
 func (h RequestHandler) ReadBy(c *gin.Context) {
+	var err error
 	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	token = strings.TrimPrefix(token, "Bearer ")
-	resJWT, err := utility.VerfiyJWT(token, "koentji")
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	roleId, err := strconv.Atoi(resJWT)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	if roleId > 2 {
+	isAdmin := auth.CheckAdmin(auth.TokenParam{Data: token})
+	isSuperAdmin := auth.CheckSuperAdmin(auth.TokenParam{Data: token})
+	if !isAdmin && !isSuperAdmin {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
 		return
 	}
@@ -139,22 +112,8 @@ func (h RequestHandler) ReadBy(c *gin.Context) {
 
 func (h RequestHandler) Delete(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	token = strings.TrimPrefix(token, "Bearer ")
-	resJWT, err := utility.VerfiyJWT(token, "koentji")
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	roleId, err := strconv.Atoi(resJWT)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	if roleId > 1 {
+	isSuperAdmin := auth.CheckSuperAdmin(auth.TokenParam{Data: token})
+	if !isSuperAdmin {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
 		return
 	}
@@ -170,22 +129,8 @@ func (h RequestHandler) Delete(c *gin.Context) {
 
 func (h RequestHandler) Update(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	token = strings.TrimPrefix(token, "Bearer ")
-	resJWT, err := utility.VerfiyJWT(token, "koentji")
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	roleId, err := strconv.Atoi(resJWT)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	if roleId > 1 {
+	isSuperAdmin := auth.CheckSuperAdmin(auth.TokenParam{Data: token})
+	if !isSuperAdmin {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
 		return
 	}
@@ -209,22 +154,8 @@ func (h RequestHandler) Update(c *gin.Context) {
 
 func (h RequestHandler) UpdateReg(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	token = strings.TrimPrefix(token, "Bearer ")
-	resJWT, err := utility.VerfiyJWT(token, "koentji")
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	roleId, err := strconv.Atoi(resJWT)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	if roleId > 1 {
+	isSuperAdmin := auth.CheckSuperAdmin(auth.TokenParam{Data: token})
+	if !isSuperAdmin {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
 		return
 	}
@@ -241,6 +172,7 @@ func (h RequestHandler) UpdateReg(c *gin.Context) {
 }
 
 func (h RequestHandler) Login(c *gin.Context) {
+	var err error
 	uname, pas, ok := c.Request.BasicAuth()
 	if !ok {
 		// Basic auth credentials are not provided or invalid
@@ -256,7 +188,7 @@ func (h RequestHandler) Login(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, "Password tidak sesuai")
 		return
 	}
-	jwt, err := utility.GenerateJWT(customer.RoleId, "koentji")
+	jwt, err := token.GenerateJWT(customer.RoleId, "koentji")
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -266,22 +198,8 @@ func (h RequestHandler) Login(c *gin.Context) {
 
 func (h RequestHandler) ReadRegis(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	token = strings.TrimPrefix(token, "Bearer ")
-	resJWT, err := utility.VerfiyJWT(token, "koentji")
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	roleId, err := strconv.Atoi(resJWT)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-		return
-	}
-	if roleId != 1 {
+	isSuperAdmin := auth.CheckSuperAdmin(auth.TokenParam{Data: token})
+	if !isSuperAdmin {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
 		return
 	}
