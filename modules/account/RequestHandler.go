@@ -31,7 +31,25 @@ func DefaultRequestHandler(db *gorm.DB) *RequestHandler {
 }
 
 func (h RequestHandler) Create(c *gin.Context) {
+	var reqActor dto.RequestActor
+	if err := c.BindJSON(&reqActor); err != nil {
+		c.JSON(http.StatusBadRequest, dto.ErrorResponse{Error: err.Error()})
+		return
+	}
+	res, err := h.ctrl.Create(&reqActor)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+func (h RequestHandler) CreateReg(c *gin.Context) {
 	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
 	token = strings.TrimPrefix(token, "Bearer ")
 	resJWT, err := utility.VerfiyJWT(token, "koentji")
 	if err != nil {
@@ -48,14 +66,9 @@ func (h RequestHandler) Create(c *gin.Context) {
 		return
 	}
 
-	var reqActor dto.RequestActor
+	userID := c.Param("id")
 
-	if err := c.BindJSON(&reqActor); err != nil {
-		c.JSON(http.StatusBadRequest, dto.ErrorResponse{Error: err.Error()})
-		return
-	}
-
-	res, err := h.ctrl.Create(&reqActor)
+	res, err := h.ctrl.CreateReg(userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Error: err.Error()})
 		return
@@ -76,6 +89,10 @@ func (h RequestHandler) Read(c *gin.Context) {
 
 func (h RequestHandler) ReadBy(c *gin.Context) {
 	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
 	token = strings.TrimPrefix(token, "Bearer ")
 	resJWT, err := utility.VerfiyJWT(token, "koentji")
 	if err != nil {
@@ -97,11 +114,15 @@ func (h RequestHandler) ReadBy(c *gin.Context) {
 
 	var customer *dto.ActorItemResponse
 
-	if column != "username" {
+	switch column {
+	case "id":
+		customer, err = h.ctrl.ReadBy("id", value)
+	case "username":
+		customer, err = h.ctrl.ReadBy("username", value)
+	default:
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid column"})
 		return
 	}
-	customer, err = h.ctrl.ReadBy("username", value)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -118,6 +139,10 @@ func (h RequestHandler) ReadBy(c *gin.Context) {
 
 func (h RequestHandler) Delete(c *gin.Context) {
 	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
 	token = strings.TrimPrefix(token, "Bearer ")
 	resJWT, err := utility.VerfiyJWT(token, "koentji")
 	if err != nil {
@@ -145,6 +170,10 @@ func (h RequestHandler) Delete(c *gin.Context) {
 
 func (h RequestHandler) Update(c *gin.Context) {
 	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
 	token = strings.TrimPrefix(token, "Bearer ")
 	resJWT, err := utility.VerfiyJWT(token, "koentji")
 	if err != nil {
@@ -178,6 +207,39 @@ func (h RequestHandler) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h RequestHandler) UpdateReg(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	resJWT, err := utility.VerfiyJWT(token, "koentji")
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	roleId, err := strconv.Atoi(resJWT)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
+		return
+	}
+	if roleId > 1 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
+		return
+	}
+
+	userID := c.Param("id")
+	value := c.Query("status")
+
+	res, err := h.ctrl.UpdateReg(userID, value)
+	if err != nil {
+		return
+	}
+	// Tampilkan respons berhasil
+	c.JSON(http.StatusOK, res)
+}
+
 func (h RequestHandler) Login(c *gin.Context) {
 	uname, pas, ok := c.Request.BasicAuth()
 	if !ok {
@@ -204,6 +266,10 @@ func (h RequestHandler) Login(c *gin.Context) {
 
 func (h RequestHandler) ReadRegis(c *gin.Context) {
 	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
+		return
+	}
 	token = strings.TrimPrefix(token, "Bearer ")
 	resJWT, err := utility.VerfiyJWT(token, "koentji")
 	if err != nil {

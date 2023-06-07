@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56e7edbe-502b-43df-9203-72ff6c027de8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/register.go" beforeDir="false" afterPath="$PROJECT_DIR$/entities/registers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/account/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/RequestHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/account/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/account/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/account/useCase.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/useCase.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/customers/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/RequestHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utility/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/utility/token.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +65,14 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="BackendCRM" />
       <working_directory value="$PROJECT_DIR$" />
@@ -72,6 +80,15 @@
       <package value="BackendCRM" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
   </component>

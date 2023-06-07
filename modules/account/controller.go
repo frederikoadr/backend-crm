@@ -3,6 +3,7 @@ package account
 import (
 	"BackendCRM/dto"
 	"BackendCRM/entities"
+	"strconv"
 )
 
 type Controller struct {
@@ -33,7 +34,33 @@ func (c Controller) Create(req *dto.RequestActor) (*dto.ActorDataResponse, error
 			Active:   user.Active,
 		},
 	}
+	return res, nil
+}
 
+func (c Controller) CreateReg(uid string) (*dto.ActorDataResponse, error) {
+	user, err := c.useCase.ActorReadBy("id", uid)
+	//user := entities.Actors{Username: req.Username, Password: req.Password, RoleId: req.RoleId, Verified: req.Verified, Active: req.Active}
+	reg := entities.Registers{
+		AdminId:      user.ID,
+		SuperAdminId: 1,
+		Status:       "Waiting",
+	}
+	err = c.useCase.CreateReg(&reg)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &dto.ActorDataResponse{
+		Message: "Success",
+		Data: dto.ActorItemResponse{
+			ID:       user.ID,
+			Username: user.Username,
+			Password: user.Password,
+			RoleId:   user.RoleId,
+			Verified: user.Verified,
+			Active:   user.Active,
+		},
+	}
 	return res, nil
 }
 
@@ -73,7 +100,7 @@ func (c Controller) Read() (*ReadResponse, error) {
 }
 
 func (c Controller) ReadBy(col, val string) (*dto.ActorItemResponse, error) {
-	user, err := c.useCase.ReadBy(col, val)
+	user, err := c.useCase.ActorReadBy(col, val)
 	if err != nil {
 		return nil, err
 	}
@@ -119,6 +146,21 @@ func (c Controller) Update(req *dto.RequestActor, id string) (*dto.ActorDataResp
 			Verified: user.Verified,
 			Active:   user.Active,
 		},
+	}
+	return res, err
+}
+func (c Controller) UpdateReg(id, val string) (*dto.RegisItemResponse, error) {
+	uid, err := strconv.ParseUint(id, 0, 64)
+	if err != nil {
+		return nil, err
+	}
+	cstr := entities.Registers{AdminId: uint(uid), SuperAdminId: 1, Status: val}
+	user, err := c.useCase.UpdateReg(&cstr, id)
+	res := &dto.RegisItemResponse{
+		ID:           uint(uid),
+		AdminId:      user.AdminId,
+		SuperAdminId: user.SuperAdminId,
+		Status:       user.Status,
 	}
 	return res, err
 }

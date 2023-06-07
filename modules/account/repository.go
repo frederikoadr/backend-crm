@@ -12,32 +12,25 @@ type Repository struct {
 }
 
 func (r Repository) Save(user *entities.Actors) error {
-	err := r.db.Create(user).Error
-	if err != nil {
-		return err
-	}
-	registerData := entities.Register{
-		AdminId:      user.ID,
-		SuperAdminId: 1,
-		Status:       "Inactive",
-	}
-	return r.db.Create(registerData).Error
+	return r.db.Create(user).Error
 }
-
+func (r Repository) SaveReg(user *entities.Registers) error {
+	return r.db.Create(user).Error
+}
 func (r Repository) FindAll() ([]entities.Actors, error) {
 	var actors []entities.Actors
 	//err := r.db.Preload("Collections").Order("id").Find(&actors).Error
 	err := r.db.Find(&actors).Error
 	return actors, err
 }
-func (r Repository) FindAllRegis() ([]entities.Register, error) {
-	var registers []entities.Register
+func (r Repository) FindAllRegis() ([]entities.Registers, error) {
+	var registers []entities.Registers
 	//err := r.db.Preload("Collections").Order("id").Find(&registers).Error
 	err := r.db.Find(&registers).Error
 	return registers, err
 }
 
-func (r Repository) FindBy(column, value string) (*entities.Actors, error) {
+func (r Repository) ActorFindBy(column, value string) (*entities.Actors, error) {
 	var actors entities.Actors
 	condition := fmt.Sprintf("%s = ?", column)
 	// Dapatkan data user dari database berdasarkan ID
@@ -61,7 +54,7 @@ func (r Repository) SoftDel(id string) (*entities.Actors, error) {
 	return &actors, err
 }
 
-func (r Repository) ChangeById(cst *entities.Actors, id string) (*entities.Actors, error) {
+func (r Repository) ChangeActorById(cst *entities.Actors, id string) (*entities.Actors, error) {
 	var existingActor entities.Actors
 	// Dapatkan data existingActor dari database berdasarkan ID
 	if err := r.db.First(&existingActor, id).Error; err != nil {
@@ -87,6 +80,22 @@ func (r Repository) ChangeById(cst *entities.Actors, id string) (*entities.Actor
 		return nil, err
 	}
 	return &existingActor, nil
+}
+func (r Repository) ChangeRegisById(cst *entities.Registers, id string) (*entities.Registers, error) {
+	var existingReg entities.Registers
+	// Dapatkan data existingReg dari database berdasarkan ID
+	if err := r.db.First(&existingReg, id).Error; err != nil {
+		return nil, err
+	}
+	fmt.Println(existingReg.AdminId)
+	if cst.Status != "" {
+		existingReg.Status = cst.Status
+	}
+	// Simpan perubahan ke database
+	if err := r.db.Save(&existingReg).Error; err != nil {
+		return nil, err
+	}
+	return &existingReg, nil
 }
 
 func NewRepository(db *gorm.DB) *Repository {

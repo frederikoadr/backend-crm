@@ -32,8 +32,10 @@ func main() {
 	r.PUT("customers/:id", customerHandler.Update)
 
 	accountHandler := account.DefaultRequestHandler(db)
-	r.GET("/login", accountHandler.Login)
+	r.POST("/login", accountHandler.Login)
 	r.POST("/actors", accountHandler.Create)
+	r.POST("/register/:id", accountHandler.CreateReg)
+	r.PUT("/register/:id", accountHandler.UpdateReg)
 	r.GET("/actors", accountHandler.Read)
 	r.GET("/registers", accountHandler.ReadRegis)
 	r.DELETE("/actors/:id", accountHandler.Delete)

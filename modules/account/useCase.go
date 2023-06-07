@@ -20,24 +20,28 @@ func (u UseCase) Create(user *entities.Actors) error {
 	user.Password = generateHash(user.Password)
 	return u.repo.Save(user)
 }
-
+func (u UseCase) CreateReg(user *entities.Registers) error {
+	return u.repo.SaveReg(user)
+}
 func (u UseCase) Read() ([]entities.Actors, error) {
 	return u.repo.FindAll()
 }
-func (u UseCase) ReadRegis() ([]entities.Register, error) {
+func (u UseCase) ReadRegis() ([]entities.Registers, error) {
 	return u.repo.FindAllRegis()
 }
 
-func (u UseCase) ReadBy(col, val string) (*entities.Actors, error) {
-	return u.repo.FindBy(col, val)
+func (u UseCase) ActorReadBy(col, val string) (*entities.Actors, error) {
+	return u.repo.ActorFindBy(col, val)
 }
-
 func (u UseCase) Delete(id string) (*entities.Actors, error) {
 	return u.repo.SoftDel(id)
 }
 
 func (u UseCase) Update(cst *entities.Actors, id string) (*entities.Actors, error) {
-	return u.repo.ChangeById(cst, id)
+	return u.repo.ChangeActorById(cst, id)
+}
+func (u UseCase) UpdateReg(cst *entities.Registers, id string) (*entities.Registers, error) {
+	return u.repo.ChangeRegisById(cst, id)
 }
 func generateHash(data string) string {
 	// Membuat objek hash dari algoritma SHA-256
