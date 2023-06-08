@@ -3,6 +3,7 @@ package account
 import (
 	"BackendCRM/dto"
 	"BackendCRM/function/auth"
+	"BackendCRM/function/hashing"
 	"BackendCRM/utility/token"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -184,7 +185,7 @@ func (h RequestHandler) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, "Username tidak terdaftar")
 		return
 	}
-	if generateHash(pas) != customer.Password {
+	if hashing.GenerateHash(pas) != customer.Password {
 		c.JSON(http.StatusUnauthorized, "Password tidak sesuai")
 		return
 	}

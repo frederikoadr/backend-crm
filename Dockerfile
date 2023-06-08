@@ -6,6 +6,6 @@ COPY . .
 
 RUN go mod download
 
-RUN go build -o contoh
+RUN go build -o crm
 
-CMD ["./contoh"]
+CMD ["./crm"]

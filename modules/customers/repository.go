@@ -7,22 +7,22 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository struct {
+type repository struct {
 	db *gorm.DB
 }
 
-func (r Repository) Save(user *entities.Customers) error {
+func (r repository) Save(user *entities.Customers) error {
 	return r.db.Create(user).Error
 }
 
-func (r Repository) FindAll() ([]entities.Customers, error) {
+func (r repository) FindAll() ([]entities.Customers, error) {
 	var customers []entities.Customers
 	//err := r.db.Preload("Collections").Order("id").Find(&customers).Error
 	err := r.db.Find(&customers).Error
 	return customers, err
 }
 
-func (r Repository) FindBy(column, value string) (*entities.Customers, error) {
+func (r repository) FindBy(column, value string) (*entities.Customers, error) {
 	var customers entities.Customers
 	condition := fmt.Sprintf("%s = ?", column)
 	// Dapatkan data user dari database berdasarkan ID
@@ -32,7 +32,7 @@ func (r Repository) FindBy(column, value string) (*entities.Customers, error) {
 	return &customers, nil
 }
 
-func (r Repository) SoftDel(id string) (*entities.Customers, error) {
+func (r repository) SoftDel(id string) (*entities.Customers, error) {
 	var customers entities.Customers
 	// Dapatkan data user dari database berdasarkan ID
 	if err := r.db.First(&customers, id).Error; err != nil {
@@ -46,7 +46,7 @@ func (r Repository) SoftDel(id string) (*entities.Customers, error) {
 	return &customers, err
 }
 
-func (r Repository) ChangeById(cst *entities.Customers, id string) (*entities.Customers, error) {
+func (r repository) ChangeById(cst *entities.Customers, id string) (*entities.Customers, error) {
 	var existingCustomer entities.Customers
 	// Dapatkan data existingCustomer dari database berdasarkan ID
 	if err := r.db.First(&existingCustomer, id).Error; err != nil {
@@ -72,6 +72,14 @@ func (r Repository) ChangeById(cst *entities.Customers, id string) (*entities.Cu
 	return &existingCustomer, nil
 }
 
-func NewRepository(db *gorm.DB) *Repository {
-	return &Repository{db: db}
+func NewRepository(db *gorm.DB) *repository {
+	return &repository{db: db}
+}
+
+type Repository interface {
+	Save(user *entities.Customers) error
+	FindAll() ([]entities.Customers, error)
+	FindBy(column, value string) (*entities.Customers, error)
+	SoftDel(id string) (*entities.Customers, error)
+	ChangeById(cst *entities.Customers, id string) (*entities.Customers, error)
 }

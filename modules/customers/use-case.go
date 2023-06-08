@@ -3,10 +3,10 @@ package customers
 import "BackendCRM/entities"
 
 type UseCase struct {
-	repo *Repository
+	repo Repository
 }
 
-func NewUseCase(repo *Repository) *UseCase {
+func NewUseCase(repo *repository) *UseCase {
 	return &UseCase{
 		repo: repo,
 	}

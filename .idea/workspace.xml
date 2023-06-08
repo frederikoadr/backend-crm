@@ -5,17 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56e7edbe-502b-43df-9203-72ff6c027de8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/function/auth/admin.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function/auth/dto.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function/auth/super-admin.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/route/router.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utility/db/mysql.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/function/hashing/hashing.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/account/use-case_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/customers/use-case_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/account/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/RequestHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/RequestHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utility/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/utility/token/token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/request-handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/useCase.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/use-case.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/customers/RequestHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/request-handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/customers/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/customers/useCase.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/use-case.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,11 +67,15 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Go_Bootcamp\BackendCRM\modules\account" />
     </key>
+    <key name="GoExtractInterfaceDialog.RECENT_KEY">
+      <recent name="$PROJECT_DIR$/modules/account" />
+      <recent name="$PROJECT_DIR$/modules/customers" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Go_Bootcamp\BackendCRM\utility\token" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Test.go test BackendCRM/modules/customers">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="BackendCRM" />
       <working_directory value="$PROJECT_DIR$" />
@@ -79,6 +85,74 @@
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="TestUseCase_ActorReadBy in BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$/modules/account" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="BackendCRM/modules/account" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestUseCase_ActorReadBy\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestUseCase_Create in BackendCRM/modules/customers" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$/modules/customers" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="BackendCRM/modules/customers" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestUseCase_Create\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestUseCase_Update in BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$/modules/account" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="BackendCRM/modules/account" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestUseCase_Update\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestUseCase_UpdateReg in BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$/modules/account" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="BackendCRM/modules/account" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestUseCase_UpdateReg\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go test BackendCRM/modules/customers" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$/modules/customers" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="BackendCRM/modules/customers" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.go test BackendCRM/modules/customers" />
+        <item itemvalue="Go Test.TestUseCase_Create in BackendCRM/modules/customers" />
+        <item itemvalue="Go Test.TestUseCase_ActorReadBy in BackendCRM/modules/account" />
+        <item itemvalue="Go Test.TestUseCase_UpdateReg in BackendCRM/modules/account" />
+        <item itemvalue="Go Test.TestUseCase_Update in BackendCRM/modules/account" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -89,5 +163,10 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/BackendCRM$TestUseCase_ActorReadBy_in_BackendCRM_modules_account.out" NAME="TestUseCase_ActorReadBy in BackendCRM/modules/account Coverage Results" MODIFIED="1686248042838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/BackendCRM$go_test_BackendCRM_modules_customers.out" NAME="go test BackendCRM/modules/customers Coverage Results" MODIFIED="1686248217139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/BackendCRM$TestUseCase_Create_in_BackendCRM_modules_customers.out" NAME="TestUseCase_Create in BackendCRM/modules/customers Coverage Results" MODIFIED="1686248127812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

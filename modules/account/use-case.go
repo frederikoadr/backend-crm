@@ -2,22 +2,21 @@ package account
 
 import (
 	"BackendCRM/entities"
-	"crypto/sha256"
-	"fmt"
+	"BackendCRM/function/hashing"
 )
 
 type UseCase struct {
-	repo *Repository
+	repo Repository
 }
 
-func NewUseCase(repo *Repository) *UseCase {
+func NewUseCase(repo *repository) *UseCase {
 	return &UseCase{
 		repo: repo,
 	}
 }
 
 func (u UseCase) Create(user *entities.Actors) error {
-	user.Password = generateHash(user.Password)
+	user.Password = hashing.GenerateHash(user.Password)
 	return u.repo.Save(user)
 }
 func (u UseCase) CreateReg(user *entities.Registers) error {
@@ -42,19 +41,4 @@ func (u UseCase) Update(cst *entities.Actors, id string) (*entities.Actors, erro
 }
 func (u UseCase) UpdateReg(cst *entities.Registers, id string) (*entities.Registers, error) {
 	return u.repo.ChangeRegisById(cst, id)
-}
-func generateHash(data string) string {
-	// Membuat objek hash dari algoritma SHA-256
-	hash := sha256.New()
-
-	// Mengupdate hash dengan data yang ingin di-hash
-	hash.Write([]byte(data))
-
-	// Mengambil nilai hash sebagai array byte
-	hashBytes := hash.Sum(nil)
-
-	// Mengubah array byte menjadi representasi heksadesimal
-	hashString := fmt.Sprintf("%x", hashBytes)
-
-	return hashString
 }
