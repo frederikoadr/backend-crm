@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56e7edbe-502b-43df-9203-72ff6c027de8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/my-sql-dump/dump.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/account/use-case_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/use-case_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/use-case_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/use-case_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/customers/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/customers/request-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/request-handler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +69,7 @@
       <recent name="D:\Go_Bootcamp\BackendCRM\utility\token" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.go test BackendCRM/modules/customers">
+  <component name="RunManager" selected="Go Build.go build main.go">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="BackendCRM" />
       <working_directory value="$PROJECT_DIR$" />

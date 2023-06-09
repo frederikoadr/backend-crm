@@ -17,7 +17,6 @@ func (r repository) Save(user *entities.Customers) error {
 
 func (r repository) FindAll() ([]entities.Customers, error) {
 	var customers []entities.Customers
-	//err := r.db.Preload("Collections").Order("id").Find(&customers).Error
 	err := r.db.Find(&customers).Error
 	return customers, err
 }

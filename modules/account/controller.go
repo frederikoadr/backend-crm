@@ -39,7 +39,6 @@ func (c Controller) Create(req *dto.RequestActor) (*dto.ActorDataResponse, error
 
 func (c Controller) CreateReg(uid string) (*dto.ActorDataResponse, error) {
 	user, err := c.useCase.ActorReadBy("id", uid)
-	//user := entities.Actors{Username: req.Username, Password: req.Password, RoleId: req.RoleId, Verified: req.Verified, Active: req.Active}
 	reg := entities.Registers{
 		AdminId:      user.ID,
 		SuperAdminId: 1,
@@ -87,12 +86,6 @@ func (c Controller) Read() (*ReadResponse, error) {
 			Verified: user.Verified,
 			Active:   user.Active,
 		}
-		//for _, collection := range user.Collections {
-		//	item.Collections = append(item.Collections, CollectionItemResponse{
-		//		ID:        collection.ID,
-		//		FirstName: collection.FirstName,
-		//	})
-		//}
 		res.Data = append(res.Data, item)
 	}
 

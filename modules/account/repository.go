@@ -19,13 +19,11 @@ func (r repository) SaveReg(user *entities.Registers) error {
 }
 func (r repository) FindAll() ([]entities.Actors, error) {
 	var actors []entities.Actors
-	//err := r.db.Preload("Collections").Order("id").Find(&actors).Error
 	err := r.db.Find(&actors).Error
 	return actors, err
 }
 func (r repository) FindAllRegis() ([]entities.Registers, error) {
 	var registers []entities.Registers
-	//err := r.db.Preload("Collections").Order("id").Find(&registers).Error
 	err := r.db.Find(&registers).Error
 	return registers, err
 }

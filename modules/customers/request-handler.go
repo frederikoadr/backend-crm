@@ -93,25 +93,6 @@ func (h RequestHandler) Read(c *gin.Context) {
 func (h RequestHandler) ReadBy(c *gin.Context) {
 	var err error
 	token := c.GetHeader("Authorization")
-	//if token == "" {
-	//	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-	//	return
-	//}
-	//token = strings.TrimPrefix(token, "Bearer ")
-	//resJWT, err := token.VerfiyJWT(token, "koentji")
-	//if err != nil {
-	//	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-	//	return
-	//}
-	//roleId, err := strconv.Atoi(resJWT)
-	//if err != nil {
-	//	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-	//	return
-	//}
-	//if roleId > 2 {
-	//	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
-	//	return
-	//}
 	isAdmin := auth.CheckAdmin(auth.TokenParam{Data: token})
 	isSuperAdmin := auth.CheckSuperAdmin(auth.TokenParam{Data: token})
 	if !isAdmin && !isSuperAdmin {
@@ -151,26 +132,6 @@ func (h RequestHandler) ReadBy(c *gin.Context) {
 
 func (h RequestHandler) Delete(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	//if token == "" {
-	//	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-	//	return
-	//}
-	//token = strings.TrimPrefix(token, "Bearer ")
-	//resJWT, err := token.VerfiyJWT(token, "koentji")
-	//if err != nil {
-	//	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
-	//	return
-	//}
-	//roleId, err := strconv.Atoi(resJWT)
-	//if err != nil {
-	//	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing or invalid token"})
-	//	return
-	//}
-	//if roleId > 2 {
-	//	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Anda tidak diijinkan melakukan aksi ini"})
-	//	return
-	//}
-
 	isAdmin := auth.CheckAdmin(auth.TokenParam{Data: token})
 	isSuperAdmin := auth.CheckSuperAdmin(auth.TokenParam{Data: token})
 	if !isAdmin && !isSuperAdmin {
