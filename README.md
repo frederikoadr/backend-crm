@@ -47,7 +47,7 @@ there are three endpoint that could use for appointment proccess, which are:
 5. Remove Admin Actors
 6. Update (Activate/Deactivate Admin) Actors
 7. Get All Customer
-8. Get Customer by "first_name"/"last_name"/"email"
+8. Get Customer by "firstname"/"lastname"/"email"
 9. Get All Actor
 10. Get Actor by "username"
 11. Post API if Admin Get All Customer(7)
@@ -59,7 +59,7 @@ there are three endpoint that could use for appointment proccess, which are:
 4. SuperAdmin and Admin could login
 5. SuperAdmin could remove Admin
 6. SuperAdmin could activate/deactivate Admin on Actors
-7. SuperAdmins and Admin could get all a customer data with parameter (by first_name and email)
+7. SuperAdmins and Admin could get all a customer data with parameter (by firstname and email)
 8. SuperAdmins and Admin could get all a admin data with parameter (by username)
 9. Admin could save data customers from API https://reqres.in/api/users?page=2 if customers is empty
 10. Unit test

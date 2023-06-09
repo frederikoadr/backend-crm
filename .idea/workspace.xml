@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56e7edbe-502b-43df-9203-72ff6c027de8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/account/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/account/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/customers/request-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/request-handler.go" afterDir="false" />
-    </list>
+    <list default="true" id="56e7edbe-502b-43df-9203-72ff6c027de8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,6 +63,14 @@
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build main.go">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="BackendCRM" />
       <working_directory value="$PROJECT_DIR$" />
@@ -88,6 +89,15 @@
       <filePath value="$PROJECT_DIR$/modules/account/use-case_test.go" />
       <framework value="gotest" />
       <pattern value="^\QTestUseCase_ActorReadBy\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <configuration name="go test BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
