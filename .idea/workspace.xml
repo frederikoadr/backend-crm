@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56e7edbe-502b-43df-9203-72ff6c027de8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/workflows/go.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-sql-dump/dump.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/account/use-case_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/account/use-case_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/customers/use-case_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/customers/use-case_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,18 +67,11 @@
       <recent name="$PROJECT_DIR$/modules/customers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Go_Bootcamp\BackendCRM\my-sql-dump" />
       <recent name="D:\Go_Bootcamp\BackendCRM\utility\token" />
     </key>
   </component>
   <component name="RunManager" selected="Go Test.go test BackendCRM/modules/customers">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="BackendCRM" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="BackendCRM" />
       <working_directory value="$PROJECT_DIR$" />
@@ -84,58 +81,23 @@
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="TestUseCase_ActorReadBy in BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUseCase_ActorReadBy in use-case_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="BackendCRM" />
       <working_directory value="$PROJECT_DIR$/modules/account" />
       <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="BackendCRM/modules/account" />
+      <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/modules/account/use-case_test.go" />
       <framework value="gotest" />
       <pattern value="^\QTestUseCase_ActorReadBy\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestUseCase_Create in BackendCRM/modules/customers" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="BackendCRM" />
-      <working_directory value="$PROJECT_DIR$/modules/customers" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="BackendCRM/modules/customers" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestUseCase_Create\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestUseCase_Update in BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go test BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="BackendCRM" />
       <working_directory value="$PROJECT_DIR$/modules/account" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
       <package value="BackendCRM/modules/account" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestUseCase_Update\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestUseCase_UpdateReg in BackendCRM/modules/account" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="BackendCRM" />
-      <working_directory value="$PROJECT_DIR$/modules/account" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="BackendCRM/modules/account" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestUseCase_UpdateReg\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="BackendCRM" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -152,13 +114,34 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <configuration name="use-case_test.go (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$/modules/account" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/modules/account/use-case_test.go" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <configuration name="use-case_test.go (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="BackendCRM" />
+      <working_directory value="$PROJECT_DIR$/modules/account" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="BackendCRM" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/modules/account/use-case_test.go" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go Test.go test BackendCRM/modules/customers" />
-        <item itemvalue="Go Test.TestUseCase_Create in BackendCRM/modules/customers" />
-        <item itemvalue="Go Test.TestUseCase_ActorReadBy in BackendCRM/modules/account" />
-        <item itemvalue="Go Test.TestUseCase_UpdateReg in BackendCRM/modules/account" />
-        <item itemvalue="Go Test.TestUseCase_Update in BackendCRM/modules/account" />
+        <item itemvalue="Go Test.go test BackendCRM/modules/account" />
+        <item itemvalue="Go Test.use-case_test.go (2)" />
+        <item itemvalue="Go Test.TestUseCase_ActorReadBy in use-case_test.go" />
+        <item itemvalue="Go Test.use-case_test.go (1)" />
       </list>
     </recent_temporary>
   </component>
