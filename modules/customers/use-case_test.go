@@ -3,6 +3,7 @@ package customers
 import (
 	"BackendCRM/entities"
 	mocks "BackendCRM/mocks/modules/customers"
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -20,9 +21,13 @@ func TestUseCase_Create(t *testing.T) {
 		Email:     "budihartono@gmail.com",
 		Avatar:    "bigchungus.jpg",
 	}
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().Save(&req).
 		Return(nil).Once()
+	falseParam := &entities.Customers{}
+	mockRepo.EXPECT().Save(falseParam).
+		Return(err).Once()
 
 	tests := []struct {
 		name    string
@@ -32,7 +37,7 @@ func TestUseCase_Create(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.Save",
+			name: "Positive test on repository.Save",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -40,6 +45,16 @@ func TestUseCase_Create(t *testing.T) {
 				user: &req,
 			},
 			wantErr: false,
+		},
+		{
+			name: "Negative test on repository.Save",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				user: falseParam,
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -68,9 +83,12 @@ func TestUseCase_Delete(t *testing.T) {
 		Avatar:    "bigchungus.jpg",
 	}
 	uid := "1"
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().SoftDel(uid).
 		Return(&req, nil).Once()
+	mockRepo.EXPECT().SoftDel("").
+		Return(nil, err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -80,7 +98,7 @@ func TestUseCase_Delete(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.Delete",
+			name: "Positive test on repository.Delete",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -89,6 +107,17 @@ func TestUseCase_Delete(t *testing.T) {
 			},
 			want:    &req,
 			wantErr: false,
+		},
+		{
+			name: "Negative on repository.Delete",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				id: "",
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -131,7 +160,7 @@ func TestUseCase_Read(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.Read",
+			name: "Positive test repository.Read",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -172,9 +201,12 @@ func TestUseCase_ReadBy(t *testing.T) {
 	}
 	column := "first_name"
 	value := "Michael"
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().FindBy(column, value).
 		Return(&resp, nil).Once()
+	mockRepo.EXPECT().FindBy("", value).
+		Return(nil, err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -184,7 +216,7 @@ func TestUseCase_ReadBy(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.ReadBy",
+			name: "Positive test on repository.ReadBy",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -194,6 +226,18 @@ func TestUseCase_ReadBy(t *testing.T) {
 			},
 			want:    &resp,
 			wantErr: false,
+		},
+		{
+			name: "Negative on repository.ReadBy",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				col: "",
+				val: value,
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -228,9 +272,12 @@ func TestUseCase_Update(t *testing.T) {
 		Avatar:    "bigchungus.jpg",
 	}
 	uid := "1"
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().ChangeById(&req, uid).
 		Return(&req, nil).Once()
+	mockRepo.EXPECT().ChangeById(&req, "").
+		Return(nil, err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -240,7 +287,7 @@ func TestUseCase_Update(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.Update",
+			name: "Positive test on repository.Update",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -250,6 +297,18 @@ func TestUseCase_Update(t *testing.T) {
 			},
 			want:    &req,
 			wantErr: false,
+		},
+		{
+			name: "Negative test on repository.Update",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				cst: &req,
+				id:  "",
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {

@@ -3,6 +3,7 @@ package account
 import (
 	"BackendCRM/entities"
 	mocks "BackendCRM/mocks/modules/account"
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -24,9 +25,12 @@ func TestUseCase_ActorReadBy(t *testing.T) {
 	}
 	column := "username"
 	value := "adminemo"
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().ActorFindBy(column, value).
 		Return(&req, nil).Once()
+	mockRepo.EXPECT().ActorFindBy("", value).
+		Return(nil, err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -36,7 +40,7 @@ func TestUseCase_ActorReadBy(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.FindBy",
+			name: "Positive test on repository.FindBy",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -46,6 +50,18 @@ func TestUseCase_ActorReadBy(t *testing.T) {
 			},
 			want:    &req,
 			wantErr: false,
+		},
+		{
+			name: "Negative test on repository.FindBy",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				col: "",
+				val: value,
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -79,9 +95,13 @@ func TestUseCase_Create(t *testing.T) {
 		Verified: "true",
 		Active:   "true",
 	}
+	falseParam := &entities.Actors{}
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().Save(&req).
 		Return(nil).Once()
+	mockRepo.EXPECT().Save(falseParam).
+		Return(err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -90,7 +110,7 @@ func TestUseCase_Create(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.Save",
+			name: "Positive test on repository.Save",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -98,6 +118,16 @@ func TestUseCase_Create(t *testing.T) {
 				user: &req,
 			},
 			wantErr: false,
+		},
+		{
+			name: "Negative test on repository.Save",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				user: falseParam,
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -125,9 +155,13 @@ func TestUseCase_CreateReg(t *testing.T) {
 		SuperAdminId: 1,
 		Status:       "Active",
 	}
+	falseParam := &entities.Registers{}
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().SaveReg(&req).
 		Return(nil).Once()
+	mockRepo.EXPECT().SaveReg(falseParam).
+		Return(err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -136,7 +170,7 @@ func TestUseCase_CreateReg(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.SaveReg",
+			name: "Positive test on repository.SaveReg",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -144,6 +178,16 @@ func TestUseCase_CreateReg(t *testing.T) {
 				user: &req,
 			},
 			wantErr: false,
+		},
+		{
+			name: "Negative test on repository.SaveReg",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				user: falseParam,
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -173,9 +217,12 @@ func TestUseCase_Delete(t *testing.T) {
 		Active:   "true",
 	}
 	uid := "2"
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().SoftDel(uid).
 		Return(&req, nil).Once()
+	mockRepo.EXPECT().SoftDel("").
+		Return(nil, err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -185,7 +232,7 @@ func TestUseCase_Delete(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.SoftDel",
+			name: "Positive test on repository.SoftDel",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -194,6 +241,17 @@ func TestUseCase_Delete(t *testing.T) {
 			},
 			want:    &req,
 			wantErr: false,
+		},
+		{
+			name: "Negative test on repository.SoftDel",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				id: "",
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -237,7 +295,7 @@ func TestUseCase_Read(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.FindAll",
+			name: "Positive test on repository.FindAll",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -285,7 +343,7 @@ func TestUseCase_ReadRegis(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.FindAllRegis",
+			name: "Positive test on repository.FindAllRegis",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -326,9 +384,12 @@ func TestUseCase_Update(t *testing.T) {
 		Active:   "true",
 	}
 	uid := "1"
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().ChangeActorById(&req, uid).
 		Return(&req, nil).Once()
+	mockRepo.EXPECT().ChangeActorById(&req, "").
+		Return(nil, err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -338,7 +399,7 @@ func TestUseCase_Update(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error on repository.ChangeActorById",
+			name: "Positive test on repository.ChangeActorById",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -348,6 +409,18 @@ func TestUseCase_Update(t *testing.T) {
 			},
 			want:    &req,
 			wantErr: false,
+		},
+		{
+			name: "Negative test on repository.ChangeActorById",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				cst: &req,
+				id:  "",
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -382,9 +455,12 @@ func TestUseCase_UpdateReg(t *testing.T) {
 		Status:       "Active",
 	}
 	uid := "2"
+	err := errors.New("fail")
 	mockRepo := mocks.NewRepository(t)
 	mockRepo.EXPECT().ChangeRegisById(&req, uid).
 		Return(&req, nil).Once()
+	mockRepo.EXPECT().ChangeRegisById(&req, "").
+		Return(nil, err).Once()
 	tests := []struct {
 		name    string
 		fields  fields
@@ -394,7 +470,7 @@ func TestUseCase_UpdateReg(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "error in repository.ChangeRegisById",
+			name: "Positive test in repository.ChangeRegisById",
 			fields: fields{
 				repo: mockRepo,
 			},
@@ -404,6 +480,18 @@ func TestUseCase_UpdateReg(t *testing.T) {
 			},
 			want:    &req,
 			wantErr: false,
+		},
+		{
+			name: "Positive test in repository.ChangeRegisById",
+			fields: fields{
+				repo: mockRepo,
+			},
+			args: args{
+				cst: &req,
+				id:  "",
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
